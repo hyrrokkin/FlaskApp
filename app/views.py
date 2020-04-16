@@ -1,7 +1,9 @@
-from flask import render_template, flash
+from flask import render_template, flash, url_for
+from flask_login import current_user, login_user, logout_user
+from werkzeug.utils import redirect
 
 from app import app, db
-from app.forms import SignUpForm
+from app.forms import SignUpForm, SignInForm
 from flask_bootstrap import Bootstrap
 
 from app.models import User
@@ -21,4 +23,33 @@ def signup():
         flash('Congratulations, you are now a registered user!')
         return 'success'
 
-    return render_template('signup.html', title='Sign In', form=form)
+    return render_template('signup.html', title='Sign Up', form=form)
+
+
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
+    form = SignInForm()
+
+    if not current_user.is_authenticated:
+        if form.validate_on_submit():
+            user = User.load_from_login(form.login.data)
+
+            if user is None or not user.check_password(form.password.data):
+                flash('Invalid login ot password')
+                return redirect(url_for('signin'))
+
+            login_user(user, remember=form.remember_me.data)
+
+            return 'success1'
+
+
+        return render_template('signin.html', title='Sign In', form=form)
+
+    return 'success2'
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return 'success'
+

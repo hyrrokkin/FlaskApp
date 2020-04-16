@@ -20,6 +20,10 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    @staticmethod
+    def load_from_login(login):
+        return User.query.filter_by(login=login).first()
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
