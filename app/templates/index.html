@@ -1,0 +1,10 @@
+{% extends "custom_base.html" %}
+
+{% block content %}
+    {{ super() }}
+
+    <p>
+        {{ is_auth }}
+    </p>
+
+{% endblock %}

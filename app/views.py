@@ -11,6 +11,12 @@ from app.models import User
 bootstrap = Bootstrap(app)
 
 
+@app.route("/")
+@app.route("/index")
+def index():
+    return render_template('index.html', is_auth=current_user.is_authenticated)
+
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignUpForm()
@@ -40,16 +46,14 @@ def signin():
 
             login_user(user, remember=form.remember_me.data)
 
-            return 'success1'
-
+            return redirect('index')
 
         return render_template('signin.html', title='Sign In', form=form)
 
-    return 'success2'
+    return redirect('index')
 
 
 @app.route('/logout')
 def logout():
     logout_user()
     return 'success'
-
