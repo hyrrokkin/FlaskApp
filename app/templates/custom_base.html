@@ -17,17 +17,26 @@
             </div>
 
             <div class="navbar-collapse collapse">
-                <ui class="nav navbar-nav">
+                <ul class="nav navbar-nav">
                     <li><a>Главная</a></li>
 
                     {% if is_auth %}
+                        <li><a href="{{ url_for('logout') }}">Выйти</Выйти></a></li>
                     {% else %}
                         <li><a href="{{ url_for('signin') }}">Войти</a></li>
                         <li><a>Регистрация</a></li>
                     {% endif %}
-                </ui>
+                </ul>
             </div>
         </div>
     </div>
 
+{% endblock %}
+
+{% block content %}
+    <p>content</p>
+
+    {% block app_content %}
+        <p> parent </p>
+    {% endblock %}
 {% endblock %}

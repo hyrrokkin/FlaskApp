@@ -8,3 +8,8 @@
     </p>
 
 {% endblock %}
+
+{% block app_content %}
+    {{ super() }}
+    <p> child </p>
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import render_template, flash, url_for
+from flask import render_template, flash, url_for, request
 from flask_login import current_user, login_user, logout_user
 from werkzeug.utils import redirect
 
@@ -56,4 +56,4 @@ def signin():
 @app.route('/logout')
 def logout():
     logout_user()
-    return 'success'
+    return redirect('index')
