@@ -28,7 +28,8 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
-        return 'success'
+        login_user(user)
+        return redirect('index')
 
     return render_template('signup.html', title='Sign Up', form=form)
 
@@ -58,5 +59,3 @@ def signin():
 def logout():
     logout_user()
     return redirect('index')
-
-
