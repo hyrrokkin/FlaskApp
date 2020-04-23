@@ -1,12 +1,13 @@
-from flask import render_template, flash, url_for, request
+from flask import render_template, flash, url_for
 from flask_login import current_user, login_user, logout_user
 from werkzeug.utils import redirect
 
-from app import app, db
-from app.forms import SignUpForm, SignInForm
 from flask_bootstrap import Bootstrap
 
-from app.models import User
+from app.src import app, db
+from app.src.entity.user import User
+from app.src.form.sign_in_form import SignInForm
+from app.src.form.sign_up_form import SignUpForm
 
 bootstrap = Bootstrap(app)
 
@@ -57,3 +58,5 @@ def signin():
 def logout():
     logout_user()
     return redirect('index')
+
+

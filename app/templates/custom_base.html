@@ -24,7 +24,7 @@
                         <li><a href="{{ url_for('logout') }}">Выйти</Выйти></a></li>
                     {% else %}
                         <li><a href="{{ url_for('signin') }}">Войти</a></li>
-                        <li><a>Регистрация</a></li>
+                        <li><a href="{{ url_for('signup') }}">Регистрация</a></li>
                     {% endif %}
                 </ul>
             </div>
