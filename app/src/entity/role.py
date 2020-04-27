@@ -14,7 +14,7 @@ class Role(db.Model):
     name = db.Column(db.String(64), unique=True)
     default = db.Column(db.Boolean, default=False, index=True)
     permissions = db.Column(db.Integer)
-    users = db.relationship('User', back_populates='roles', lazy='dynamic')
+    users = db.relationship('User', back_populates='role_object')
 
     @staticmethod
     def insert_roles():
@@ -29,8 +29,8 @@ class Role(db.Model):
 
             if role is None:
                 role = Role(name=r)
-            role.permissions = role[r][0]
-            role.default = role[r][1]
+            role.permissions = roles[r][0]
+            role.default = roles[r][1]
 
             db.session.add(role)
         db.session.commit()
