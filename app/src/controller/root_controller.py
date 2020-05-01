@@ -5,6 +5,7 @@ from werkzeug.utils import redirect
 from flask_bootstrap import Bootstrap
 
 from app.src import app, db
+from app.src.decorator.permission_decorator import admin_required
 from app.src.entity.user import User
 from app.src.form.sign_in_form import SignInForm
 from app.src.form.sign_up_form import SignUpForm
@@ -14,6 +15,7 @@ bootstrap = Bootstrap(app)
 
 @app.route("/")
 @app.route("/index")
+@admin_required
 def index():
     return render_template('index.html', is_auth=current_user.is_authenticated)
 
@@ -23,7 +25,7 @@ def signup():
     form = SignUpForm()
 
     if form.validate_on_submit():
-        user = User(login=form.login.data, name=form.name.data, email=form.email.data)
+        user = User(login=form.login.data, name=form.name.data, email=form.email.data, role=0)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()

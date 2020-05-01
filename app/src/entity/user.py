@@ -5,6 +5,7 @@ from app.src import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.src.entity import login as login_form
+from app.src.entity.role import Permission
 
 
 class User(UserMixin, db.Model):
@@ -26,6 +27,12 @@ class User(UserMixin, db.Model):
     @staticmethod
     def load_from_login(login):
         return User.query.filter_by(login=login).first()
+
+    def can(self, permission):
+        return self.role_object is not None and (self.role_object.permissions & permission) == permission
+
+    def is_administrator(self):
+        return self.can(Permission.ADMINISTER)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

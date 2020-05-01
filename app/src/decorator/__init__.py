@@ -1,0 +1,1 @@
+from app.src.decorator import permission_decorator
