@@ -1,6 +1,6 @@
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 
-from app.src import db
+from app.src import db, login_manager
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -38,6 +38,17 @@ class User(UserMixin, db.Model):
         return '<User {}>'.format(self.username)
 
 
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permission):
+        return False
+
+    def is_administrator(self):
+        return False
+
+
 @login_form.user_loader
 def load_user(login):
     return User.query.get(login)
+
+
+login_manager.anonymous_user = AnonymousUser

@@ -1,5 +1,5 @@
 from flask import render_template, flash, url_for
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import redirect
 
 from flask_bootstrap import Bootstrap
@@ -11,6 +11,12 @@ from app.src.form.sign_in_form import SignInForm
 from app.src.form.sign_up_form import SignUpForm
 
 bootstrap = Bootstrap(app)
+
+
+@app.route("/admin_page")
+@admin_required
+def admin_page():
+    pass
 
 
 @app.route("/")
