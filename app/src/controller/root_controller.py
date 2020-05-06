@@ -7,6 +7,7 @@ from flask_bootstrap import Bootstrap
 from app.src import app, db
 from app.src.decorator.permission_decorator import admin_required
 from app.src.entity.user import User
+from app.src.form.edit_profile_form import EditProfileForm
 from app.src.form.sign_in_form import SignInForm
 from app.src.form.sign_up_form import SignUpForm
 
@@ -21,9 +22,23 @@ def admin_page():
 
 @app.route("/")
 @app.route("/index")
-@admin_required
 def index():
-    return render_template('index.html', is_auth=current_user.is_authenticated)
+    return render_template('index.html', current_user=current_user)
+
+
+@app.route("/<username>", methods=['GET', 'POST'])
+def profile(username):
+    user = User.load_from_login(username)
+
+    if user is None or user.login != current_user.login and not current_user.is_administrator():
+        return redirect('index')
+
+    form = EditProfileForm()
+
+    if form.validate_on_submit():
+        return redirect('index')
+
+    return render_template('profile.html', form=form, current_user=current_user)
 
 
 @app.route('/signup', methods=['GET', 'POST'])

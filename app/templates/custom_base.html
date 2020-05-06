@@ -1,5 +1,9 @@
 {% extends "bootstrap/base.html" %}
 
+{% block style %}
+    {{ super() }}
+{% endblock %}
+
 {% block navbar %}
     <div class="navbar navbar-inverse" role="navigation">
         <div class="container">
@@ -20,7 +24,8 @@
                 <ul class="nav navbar-nav">
                     <li><a>Главная</a></li>
 
-                    {% if is_auth %}
+                    {% if current_user.is_authenticated %}
+                        <li><a href="{{ url_for('profile', username=current_user.login) }}">Профиль</a></li>
                         <li><a href="{{ url_for('logout') }}">Выйти</a></li>
                     {% else %}
                         <li><a href="{{ url_for('signin') }}">Войти</a></li>
