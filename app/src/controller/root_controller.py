@@ -1,4 +1,4 @@
-from flask import render_template, flash, url_for
+from flask import render_template, flash, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import redirect
 
@@ -35,7 +35,10 @@ def profile(username):
 
     form = EditProfileForm()
 
-    if form.validate_on_submit():
+    if form.validate_on_exit():
+        return redirect('logout')
+
+    if form.validate_on_save():
         return redirect('index')
 
     return render_template('profile.html', form=form, current_user=current_user)

@@ -1,5 +1,11 @@
 {% extends "custom_base.html" %}
 
+{% block styles %}
+    {{ super() }}
+
+    <link href="{{ url_for('.static', filename='css/profile.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
     <div id="profile_container">
         <form action="" method="POST">
@@ -25,13 +31,14 @@
             </p>
 
             <p>
-                {{ form.about_me(class="form-input form-input-multiple", placeholder=form.about_me.label.text, value=current_user.about_me) }}<br>
+                {{ form.about_me(class="form-input area", placeholder=form.about_me.label.text, value=current_user.about_me) }}<br>
                 {% for error in form.about_me.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
             </p>
 
-             <p>{{ form.submit() }}</p>
+             <p>{{ form.save_button }}</p>
+             <p>{{ form.exit_button }}</p>
         </form>
     </div>
 {% endblock %}

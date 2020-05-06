@@ -9,4 +9,11 @@ class EditProfileForm(FlaskForm):
     about_me = TextAreaField('Обо мне', validators=[DataRequired()])
     email = StringField('Адрес почтового ящика', validators=[DataRequired(), Email()])
 
-    submit = SubmitField('Сохранить')
+    save_button = SubmitField('Сохранить')
+    exit_button = SubmitField('Выход')
+
+    def validate_on_save(self):
+        return self.save_button.data
+
+    def validate_on_exit(self):
+        return self.exit_button.data

@@ -1,0 +1,14 @@
+.form-input {
+    width: 100%;
+}
+
+.form-input-single {
+    height: 50px;
+    padding-left: 5px;
+}
+
+.area {
+    height: 100px;
+    resize: none;
+    padding: 5px;
+}
