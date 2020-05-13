@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_login import UserMixin, AnonymousUserMixin
 
 from app.src import db, login_manager
@@ -19,6 +21,12 @@ class User(UserMixin, db.Model):
     role_object = db.relationship('Role', back_populates='users')
     last_name = db.Column(db.String(120), nullable=True)
     about_me = db.Column(db.String(255), nullable=True)
+    registration_date = db.Column(db.DateTime, nullable=True)
+    last_seen = db.Column(db.DateTime, nullable=True)
+
+    def ping(self):
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

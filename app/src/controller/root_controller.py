@@ -7,9 +7,10 @@ from flask_bootstrap import Bootstrap
 from app.src import app, db
 from app.src.decorator.permission_decorator import admin_required
 from app.src.entity.user import User
-from app.src.form.edit_profile_form import EditProfileForm
 from app.src.form.sign_in_form import SignInForm
 from app.src.form.sign_up_form import SignUpForm
+
+from datetime import datetime
 
 bootstrap = Bootstrap(app)
 
@@ -23,33 +24,42 @@ def admin_page():
 @app.route("/")
 @app.route("/index")
 def index():
+    if current_user.is_authenticated:
+        current_user.ping()
+        db.session.commit()
     return render_template('index.html', current_user=current_user)
 
 
 @app.route("/<username>", methods=['GET', 'POST'])
 def profile(username):
+    if current_user.is_authenticated:
+        current_user.ping()
+        db.session.commit()
     user = User.load_from_login(username)
 
-    if user is None or user.login != current_user.login and not current_user.is_administrator():
-        return redirect('index')
+    #if user is None or user.login != current_user.login and not current_user.is_administrator():
+    #   return redirect('index')
 
-    form = EditProfileForm()
+    #form = EditProfileForm()
 
-    if form.validate_on_exit():
-        return redirect('logout')
+    #if form.validate_on_exit():
+    #    return redirect('logout')
 
-    if form.validate_on_save():
-        return redirect('index')
+    #if form.validate_on_save():
+    #    return redirect('index')
 
-    return render_template('profile.html', form=form, current_user=current_user)
+    return render_template('profile.html', user=user, current_user=current_user)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    if current_user.is_authenticated:
+        current_user.ping()
+        db.session.commit()
     form = SignUpForm()
 
     if form.validate_on_submit():
-        user = User(login=form.login.data, name=form.name.data, email=form.email.data, role=0)
+        user = User(login=form.login.data, name=form.name.data, email=form.email.data, role=0, registration_date=datetime.utcnow())
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -62,6 +72,9 @@ def signup():
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
+    if current_user.is_authenticated:
+        current_user.ping()
+        db.session.commit()
     form = SignInForm()
 
     if not current_user.is_authenticated:
@@ -83,5 +96,8 @@ def signin():
 
 @app.route('/logout')
 def logout():
+    if current_user.is_authenticated:
+        current_user.ping()
+        db.session.commit()
     logout_user()
     return redirect('index')
