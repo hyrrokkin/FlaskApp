@@ -2,6 +2,8 @@ from flask import render_template, flash, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import redirect
 
+import requests
+
 from flask_bootstrap import Bootstrap
 
 from app.src import app, db
@@ -101,3 +103,23 @@ def logout():
         db.session.commit()
     logout_user()
     return redirect('index')
+
+
+@app.route('/country')
+def country():
+    headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Token a2671c86ace86c4ebf110f0b8732193232b9379d',
+    }
+
+    data = '{ "query": "r" }'
+
+    response = requests.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/country', headers=headers,
+                             data=data)
+
+    print(response.content.decode("utf-8"))
+
+    return response.content.decode("utf-8")
+
+    #return response
