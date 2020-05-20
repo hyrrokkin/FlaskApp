@@ -1,4 +1,4 @@
-from flask import render_template, flash, url_for, request
+from flask import render_template, flash, url_for, request, json
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import redirect
 
@@ -8,6 +8,7 @@ from flask_bootstrap import Bootstrap
 
 from app.src import app, db
 from app.src.decorator.permission_decorator import admin_required
+from app.src.entity.music import Music
 from app.src.entity.user import User
 from app.src.form.sign_in_form import SignInForm
 from app.src.form.sign_up_form import SignUpForm
@@ -32,7 +33,7 @@ def index():
     return render_template('index.html', current_user=current_user)
 
 
-@app.route("/<username>", methods=['GET', 'POST'])
+@app.route("/users/<username>", methods=['GET', 'POST'])
 def profile(username):
     if current_user.is_authenticated:
         current_user.ping()
@@ -105,15 +106,15 @@ def logout():
     return redirect('index')
 
 
-@app.route('/country')
-def country():
+@app.route('/country/<text>')
+def country(text):
     headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': 'Token a2671c86ace86c4ebf110f0b8732193232b9379d',
     }
 
-    data = '{ "query": "r" }'
+    data = ("{ \"query\": \"%s\" }" % text).encode('utf-8')
 
     response = requests.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/country', headers=headers,
                              data=data)
@@ -122,4 +123,14 @@ def country():
 
     return response.content.decode("utf-8")
 
-    #return response
+
+@app.route('/music')
+def music():
+    music = Music.sort_by_input_date()
+
+    music_list = list()
+
+    for aMusic in music:
+        music_list.append(aMusic.serialize())
+
+    return json.dumps(music_list)
