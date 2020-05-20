@@ -1,0 +1,22 @@
+.music-prev-entry {
+    width: 100%;
+    float: right;
+}
+
+.music-prev-img {
+    float: right;
+    height: 300px;
+    width: 300px;
+    padding: 5px;
+}
+
+.music-prev-img img {
+    height: 300px;
+    width: 300px;
+    padding: 5px;
+}
+
+.music-prev-info {
+    float: none;
+    padding: 5px;
+}

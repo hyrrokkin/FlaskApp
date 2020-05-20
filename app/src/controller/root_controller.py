@@ -128,9 +128,4 @@ def country(text):
 def music():
     music = Music.sort_by_input_date()
 
-    music_list = list()
-
-    for aMusic in music:
-        music_list.append(aMusic.serialize())
-
-    return json.dumps(music_list)
+    return render_template('music.html', title='Music', music=music, current_user=current_user)

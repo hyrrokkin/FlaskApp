@@ -5,10 +5,33 @@ from app.src.entity.role import Role
 from datetime import datetime
 
 if __name__=='__main__':
-    """
-    music = Music(name='music_1', input_date=datetime(2020, 1, 5), release_date=datetime(2019, 2, 3))
-    music1 = Music(name='music_2', input_date=datetime(2010, 1, 5), release_date=datetime(2017, 2, 3))
-    music2 = Music(name='music_3', input_date=datetime(2018, 1, 5), release_date=datetime(2016, 2, 3))
+    """    
+    music = Music(
+        name='Soul Rebels',
+        performer='Боб Марли',
+        genre='Регги',
+        input_date=datetime(1970, 12, 5),
+        release_date=datetime.utcnow(),
+        cover='reg12334g1.jpeg'
+    )
+
+    music1 = Music(
+        name='Soul Revolution',
+        performer='Боб Марли',
+        genre='Регги',
+        input_date=datetime(1970, 12, 5),
+        release_date=datetime.utcnow(),
+        cover='beg2323ty34.jpeg'
+    )
+
+    music2 = Music(
+        name='The Best of the Wailers',
+        performer='Боб Марли',
+        genre='Регги',
+        input_date=datetime(1970, 12, 5),
+        release_date=datetime.utcnow(),
+        cover='fh421kge239gef2.jpeg'
+    )
 
     db.session.add(music)
     db.session.add(music1)

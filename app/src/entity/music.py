@@ -5,8 +5,11 @@ class Music(db.Model):
     __tablename__ = 'music'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
+    performer = db.Column(db.String(64))
+    genre = db.Column(db.String(64))
     input_date = db.Column(db.DateTime, nullable=True)
     release_date = db.Column(db.DateTime, nullable=True)
+    cover = db.Column(db.String(64), nullable=True)
 
     @staticmethod
     def load_by_name(name):
@@ -14,7 +17,7 @@ class Music(db.Model):
 
     @staticmethod
     def sort_by_input_date():
-        return Music.query.order_by(Music.input_date.asc()).all()
+        return Music.query.order_by(Music.release_date.asc()).all()
 
     def __repr__(self):
         return "Music {} {} {} {}\n".format(self.id, self.name, self.input_date, self.release_date)
