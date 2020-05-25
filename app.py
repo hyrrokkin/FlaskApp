@@ -10,8 +10,8 @@ if __name__=='__main__':
         name='Soul Rebels',
         performer='Боб Марли',
         genre='Регги',
-        input_date=datetime(1970, 12, 5),
-        release_date=datetime.utcnow(),
+        release_date=datetime(1970, 12, 5),
+        input_date=datetime.utcnow(),
         cover='reg12334g1.jpeg'
     )
 
@@ -19,8 +19,8 @@ if __name__=='__main__':
         name='Soul Revolution',
         performer='Боб Марли',
         genre='Регги',
-        input_date=datetime(1970, 12, 5),
-        release_date=datetime.utcnow(),
+        release_date=datetime(1970, 12, 5),
+        input_date=datetime.utcnow(),
         cover='beg2323ty34.jpeg'
     )
 
@@ -28,8 +28,8 @@ if __name__=='__main__':
         name='The Best of the Wailers',
         performer='Боб Марли',
         genre='Регги',
-        input_date=datetime(1970, 12, 5),
-        release_date=datetime.utcnow(),
+        release_date=datetime(1970, 12, 5),
+        input_date=datetime.utcnow(),
         cover='fh421kge239gef2.jpeg'
     )
 
