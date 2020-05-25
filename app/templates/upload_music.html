@@ -1,0 +1,52 @@
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+    <h1>Загрузка музыки</h1>
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        {{ music.hidden_tag() }}
+
+        <p>
+            {{ music.name.label }}<br>
+            {{ music.name(size=32) }}<br>
+            {% for error in music.name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ music.performer.label }}<br>
+            {{ music.performer(size=32) }}<br>
+            {% for error in music.performer.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ music.genre.label }}<br>
+            {{ music.genre(size=32) }}<br>
+            {% for error in music.genre.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ music.release_date.label }}<br>
+            {{ music.release_date(size=32) }}<br>
+            {% for error in music.release_date.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ music.cover.label }}<br>
+            {{ music.cover(size=32) }}<br>
+            {% for error in music.cover.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+        <p>{{ music.submit() }}</p>
+
+    </form>
+{% endblock %}
