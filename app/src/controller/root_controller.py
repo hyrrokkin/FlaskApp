@@ -153,8 +153,20 @@ def upload_music():
     form = MusicForm()
 
     if form.validate_on_submit():
+        print(request.files)
         file = form.cover.data
         filename = secure_filename(form.cover.data.filename)
+
+        for req_file in request.files:
+            print(request.files[req_file])
+            if req_file != 'cover':
+                if request.files[req_file].filename == '':
+                    flash('No selected file')
+                else:
+                    request.files[req_file].save(os.path.join(
+                        app.config['UPLOAD_FOLDER'] + "/tracks/",
+                        secure_filename(request.files[req_file].filename))
+                    )
 
         if file.filename == '':
             flash('No selected file')

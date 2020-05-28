@@ -1,9 +1,30 @@
-{% extends "bootstrap/base.html" %}
+{% extends "custom_base.html" %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script type="text/javascript">
+        function add_music() {
+            var file_index = 0;
+
+            var upload_form = document.getElementById("upload_form");
+
+            var add_music_p = document.createElement("p");
+            var add_music_input = document.createElement("input");
+            add_music_input.type='file';
+            add_music_input.name = file_index.toString();
+            add_music_p.appendChild(add_music_input);
+            upload_form.appendChild(add_music_p);
+
+            file_index = file_index + 1;
+        }
+    </script>
+{% endblock %}
 
 {% block content %}
     <h1>Загрузка музыки</h1>
 
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form id="upload_form" action="" method="POST" enctype="multipart/form-data">
         {{ music.hidden_tag() }}
 
         <p>
@@ -49,4 +70,9 @@
         <p>{{ music.submit() }}</p>
 
     </form>
+
+    <p>
+        <input id="add_music" type="submit" value="Добавить трек" onclick="add_music()">
+    </p>
+
 {% endblock %}
