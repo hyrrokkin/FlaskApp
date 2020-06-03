@@ -1,4 +1,5 @@
 import os
+import eyed3
 
 from flask import render_template, flash, url_for, request, json
 from flask_login import current_user, login_user, logout_user, login_required
@@ -12,6 +13,7 @@ from app.config import ALLOWED_EXTENSIONS
 from app.src import app, db
 from app.src.decorator.permission_decorator import admin_required
 from app.src.entity.music import Music
+from app.src.entity.track import Track
 from app.src.entity.user import User
 from app.src.form.music_form import MusicForm
 from app.src.form.sign_in_form import SignInForm
@@ -152,12 +154,15 @@ def upload_music():
 
     form = MusicForm()
 
+    tracks = []
+
     if form.validate_on_submit():
         print(request.files)
         file = form.cover.data
         filename = secure_filename(form.cover.data.filename)
 
         for req_file in request.files:
+            track_filename = secure_filename(request.files[req_file].filename)
             print(request.files[req_file])
             if req_file != 'cover':
                 if request.files[req_file].filename == '':
@@ -165,8 +170,23 @@ def upload_music():
                 else:
                     request.files[req_file].save(os.path.join(
                         app.config['UPLOAD_FOLDER'] + "/tracks/",
-                        secure_filename(request.files[req_file].filename))
+                        track_filename)
                     )
+
+                    audiofile = eyed3.load(os.path.join(
+                        app.config['UPLOAD_FOLDER'] + "/tracks/",
+                        track_filename)
+                    )
+
+                    print(audiofile.tag)
+
+                    track = Track(
+                        name=audiofile.tag.title,
+                        number=audiofile.tag.track_num[0],
+                        file=track_filename
+                    )
+
+                    tracks.append(track)
 
         if file.filename == '':
             flash('No selected file')
@@ -184,6 +204,11 @@ def upload_music():
             )
 
             db.session.add(music)
+
+            for track in tracks:
+                track.album_object = music
+                db.session.add(track)
+
             db.session.commit()
 
             return redirect('/music/upload')

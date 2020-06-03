@@ -10,6 +10,7 @@ class Music(db.Model):
     input_date = db.Column(db.DateTime, nullable=True)
     release_date = db.Column(db.DateTime, nullable=True)
     cover = db.Column(db.String(64), nullable=True)
+    tracks = db.relationship('Track', back_populates='album_object')
 
     @staticmethod
     def load_by_name(name):

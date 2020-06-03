@@ -25,7 +25,7 @@ class MusicForm(FlaskForm):
 
     release_date = DateField(
         'Дата выхода',
-        format='%m.%d.%Y'
+        format='%d.%m.%Y'
     )
 
     cover = FileField(
