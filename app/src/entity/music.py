@@ -17,6 +17,10 @@ class Music(db.Model):
         return Music.query.filter_by(name=name)
 
     @staticmethod
+    def load_by_id(_id):
+        return Music.query.filter_by(id=_id).first()
+
+    @staticmethod
     def sort_by_input_date():
         return Music.query.order_by(Music.release_date.asc()).all()
 

@@ -6,16 +6,26 @@
     <link href="{{ url_for('.static', filename='css/music.css') }}" rel="stylesheet">
 {% endblock %}
 
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript">
+        function open_album(id) {
+            alert(id);
+        }
+    </script>
+{% endblock %}
+
+
 {% block content %}
     {% for aMusic in music %}
-        <div class="music-prev-entry">
+        <div class="music-prev-entry" >
             <div class="music-prev-img">
                 <img src="{{ url_for('.static', filename='cover/' + aMusic.cover) }}">
             </div>
 
             <div class="music-prev-info">
                 <p>
-                    Название: {{ aMusic.name }}
+                    Название: <a href="{{ url_for('view_album', _id=aMusic.id) }}">{{ aMusic.name }}</a>
                 </p>
 
                 <p>

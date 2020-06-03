@@ -157,13 +157,12 @@ def upload_music():
     tracks = []
 
     if form.validate_on_submit():
-        print(request.files)
         file = form.cover.data
         filename = secure_filename(form.cover.data.filename)
 
         for req_file in request.files:
             track_filename = secure_filename(request.files[req_file].filename)
-            print(request.files[req_file])
+
             if req_file != 'cover':
                 if request.files[req_file].filename == '':
                     flash('No selected file')
@@ -177,8 +176,6 @@ def upload_music():
                         app.config['UPLOAD_FOLDER'] + "/tracks/",
                         track_filename)
                     )
-
-                    print(audiofile.tag)
 
                     track = Track(
                         name=audiofile.tag.title,
@@ -215,3 +212,13 @@ def upload_music():
         return redirect('index')
 
     return render_template('upload_music.html', title='Загрузка', current_user=current_user, music=form)
+
+
+@app.route('/music/<int:_id>')
+def view_album(_id):
+    album = Music.load_by_id(_id)
+
+    if not album:
+        return 'error', 404
+
+    return render_template('album.html', title='Альбом', current_user=current_user, album=album)

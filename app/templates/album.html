@@ -1,0 +1,18 @@
+{% extends "custom_base.html" %}
+
+{% block content %}
+    <div>
+        <div id="album-cover">
+            <img src="{{ url_for('.static', filename='cover/' + album.cover) }}" alt="cover">
+        </div>
+
+        {% for aTrack in album.tracks %}
+            <div class="track-entry">
+                <audio src="{{ url_for('.static', filename='tracks/' + aTrack.file) }}" controls></audio>
+                <p>
+                    {{ aTrack.number }} - {{ aTrack.name }}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
