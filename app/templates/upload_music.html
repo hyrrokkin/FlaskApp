@@ -4,19 +4,19 @@
     {{ super() }}
 
     <script type="text/javascript">
+        let file_index = 0;
+
         function add_music() {
-            var file_index = 0;
+            let upload_form = document.getElementById("upload_form");
 
-            var upload_form = document.getElementById("upload_form");
-
-            var add_music_p = document.createElement("p");
-            var add_music_input = document.createElement("input");
+            let add_music_p = document.createElement("p");
+            let add_music_input = document.createElement("input");
             add_music_input.type='file';
             add_music_input.name = file_index.toString();
             add_music_p.appendChild(add_music_input);
             upload_form.appendChild(add_music_p);
 
-            file_index = file_index + 1;
+            file_index++;
         }
     </script>
 {% endblock %}
